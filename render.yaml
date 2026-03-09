@@ -1,0 +1,26 @@
+# Render.com Configuration for Fresh Pup Grooming Backend
+# Alternative to Railway deployment
+
+services:
+  - type: web
+    name: fresh-pup-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker server:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.4
+      - key: DB_NAME
+        value: fresh_pup_grooming
+      - key: MONGO_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+databases:
+  - name: fresh-pup-mongodb
+    plan: free
